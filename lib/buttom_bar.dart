@@ -1,3 +1,4 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,8 @@ import 'package:flutter_application_1/contact.dart';
 import 'package:flutter_application_1/curense.dart';
 import 'package:flutter_application_1/helpnfeedback.dart';
 import 'package:flutter_application_1/history.dart';
-import 'package:flutter_application_1/signin.dart';
 import 'package:flutter_application_1/news.dart';
-
-
+import 'package:flutter_application_1/signin.dart';
 
 void main() {
   runApp(const ButtomBar());
@@ -190,92 +189,167 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     User? user = _auth.currentUser;
-    
+
     return Scaffold(
-    appBar:   AppBar(
-  backgroundColor: Colors.blue,
-  centerTitle: true,
-  title: Image.asset(
-    "logo/logo.png",
-    width: 150,
-  ),
-  leading: Builder(
-    builder: (BuildContext context) {
-      return user != null
-          ? IconButton(
-              icon: const Icon(Icons.menu), // Hamburger menu icon
-              onPressed: () {
-                Scaffold.of(context).openDrawer(); // Open the drawer
-              },
-            )
-          : const SizedBox(); // Show nothing if no user
-    },
-  ),
-  actions: [
-    user != null
-    ? TextButton(
-        onPressed: () {
-          // Show confirmation dialog
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text("Logout Confirmation"),
-                content: const Text("Are you sure you want to logout?"),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      // Close the dialog without logging out
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Cancel"),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // Logout logic
-                      _auth.signOut();
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
-                    child: const Text("Logout"),
-                  ),
-                ],
-              );
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "logo/logo.png",
+              width: 150,
+            ),
+          ],
+        ),
+        actions: [
+          PopupMenuButton<String>(
+            icon: Icon(
+              Icons.more_vert, // 3 vertical dots icon
+              color: Colors.white, // Icon color to match your app theme
+            ),
+            onSelected: (value) {
+              if (value == 'logout') {
+                onPressed: () {
+                    // Show confirmation dialog
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Logout Confirmation"),
+                          content:
+                              const Text("Are you sure you want to logout?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                // Close the dialog without logging out
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                // Logout logic
+                                _auth.signOut();
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              child: const Text("Logout"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  };
+                 
+              }
             },
-          );
-        },
-        style: OutlinedButton.styleFrom(
-          side: const BorderSide(color: Colors.white), // Button outline color
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            offset: Offset(0,
+                kToolbarHeight), // Ensures the dropdown appears below the icon
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem<String>(
+                  value: 'logout',
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout, color: Colors.blue),
+                      SizedBox(width: 8),
+                      Text("Logout"),
+                    ],
+                  ),
+                ),
+              ];
+            },
           ),
-        ),
-        child: const Text(
-          "Logout",
-          style: TextStyle(color: Colors.white),
-        ),
-      )
-    : 
-    OutlinedButton(
-        onPressed: () {
-          // Navigate to the login page
-          Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (builder) => Signin())); // Update with your login route
-        },
-        style: OutlinedButton.styleFrom(
-          side: const BorderSide(color: Colors.white), // Button outline color
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        child: const Text(
-          "Login",
-          style: TextStyle(color: Colors.white),
-        ),
-      )
-  ],
-),
+        ],
+      ),
+      // AppBar(
+      //   backgroundColor: Colors.blue,
+      //   centerTitle: true,
+      //   title: Image.asset(
+      //     "logo/logo.png",
+      //     width: 150,
+      //   ),
+      //   leading: Builder(
+      //     builder: (BuildContext context) {
+      //       return user != null
+      //           ? IconButton(
+      //               icon: const Icon(Icons.menu), // Hamburger menu icon
+      //               onPressed: () {
+      //                 Scaffold.of(context).openDrawer(); // Open the drawer
+      //               },
+      //             )
+      //           : const SizedBox(); // Show nothing if no user
+      //     },
+      //   ),
+      //   actions: [
+      //     user != null
+      //         ? TextButton(
+      //             onPressed: () {
+      //               // Show confirmation dialog
+      //               showDialog(
+      //                 context: context,
+      //                 builder: (BuildContext context) {
+      //                   return AlertDialog(
+      //                     title: const Text("Logout Confirmation"),
+      //                     content:
+      //                         const Text("Are you sure you want to logout?"),
+      //                     actions: [
+      //                       TextButton(
+      //                         onPressed: () {
+      //                           // Close the dialog without logging out
+      //                           Navigator.of(context).pop();
+      //                         },
+      //                         child: const Text("Cancel"),
+      //                       ),
+      //                       TextButton(
+      //                         onPressed: () {
+      //                           // Logout logic
+      //                           _auth.signOut();
+      //                           Navigator.of(context).pop(); // Close the dialog
+      //                         },
+      //                         child: const Text("Logout"),
+      //                       ),
+      //                     ],
+      //                   );
+      //                 },
+      //               );
+      //             },
+      //             style: OutlinedButton.styleFrom(
+      //               side: const BorderSide(
+      //                   color: Colors.white), // Button outline color
+      //               shape: RoundedRectangleBorder(
+      //                 borderRadius: BorderRadius.circular(8),
+      //               ),
+      //             ),
+      //             child: const Text(
+      //               "Logout",
+      //               style: TextStyle(color: Colors.white),
+      //             ),
+      //           )
+      //         : OutlinedButton(
+      //             onPressed: () {
+      //               // Navigate to the login page
+      //               Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(
+      //                       builder: (builder) =>
+      //                           Signin())); // Update with your login route
+      //             },
+      //             style: OutlinedButton.styleFrom(
+      //               side: const BorderSide(
+      //                   color: Colors.white), // Button outline color
+      //               shape: RoundedRectangleBorder(
+      //                 borderRadius: BorderRadius.circular(8),
+      //               ),
+      //             ),
+      //             child: const Text(
+      //               "Login",
+      //               style: TextStyle(color: Colors.white),
+      //             ),
+      //           )
+      //   ],
+      // ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -315,6 +389,17 @@ class _MyHomePageState extends State<MyHomePage> {
                             ContactUs())); // Open Contact us page
               },
             ),
+            //  ListTile(
+            //   leading: const Icon(Icons.newspaper),
+            //   title: const Text('News'),
+            //   onTap: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (builder) =>
+            //                 CurrencyMarketPage())); // Open Contact us page
+            //   },
+            // ),
             ListTile(
               leading: const Icon(Icons.help_outline),
               title: const Text('Help & Feedback'),
