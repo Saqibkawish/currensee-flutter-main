@@ -84,9 +84,9 @@ class _MyHistoryPageState extends State<MyHistoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-   appBar: AppBar(
-        title: Text('History'),
-        backgroundColor: Colors.blue,
+      appBar: AppBar(
+        title: Text(widget.title),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: conversions.isEmpty
           ? const Center(child: CircularProgressIndicator())

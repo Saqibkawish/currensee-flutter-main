@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_application_1/contact.dart';
 import 'package:flutter_application_1/curense.dart';
 import 'package:flutter_application_1/helpnfeedback.dart';
 import 'package:flutter_application_1/history.dart';
-import 'package:flutter_application_1/news.dart';
 import 'package:flutter_application_1/signin.dart';
 
 void main() {
@@ -46,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // List of pages corresponding to each tab
   List<Widget> mypage = [
     CurrencyConverterUI(), // Replace with your CurrencyConverterUI widget
-    CurrencyMarketPage(),
+    Text("Home Page"),
     Text("Your Library Page"),
     Text("Profile Page"),
   ];
@@ -189,168 +187,114 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     User? user = _auth.currentUser;
-
+    
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "logo/logo.png",
-              width: 150,
-            ),
-          ],
-        ),
-        actions: [
-          PopupMenuButton<String>(
-            icon: Icon(
-              Icons.more_vert, // 3 vertical dots icon
-              color: Colors.white, // Icon color to match your app theme
-            ),
-            onSelected: (value) {
-              if (value == 'logout') {
-                onPressed: () {
-                    // Show confirmation dialog
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text("Logout Confirmation"),
-                          content:
-                              const Text("Are you sure you want to logout?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                // Close the dialog without logging out
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text("Cancel"),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                // Logout logic
-                                _auth.signOut();
-                                Navigator.of(context).pop(); // Close the dialog
-                              },
-                              child: const Text("Logout"),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  };
-                 
-              }
-            },
-            offset: Offset(0,
-                kToolbarHeight), // Ensures the dropdown appears below the icon
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem<String>(
+    appBar:   
+    AppBar(
+  backgroundColor: Colors.blue,
+  centerTitle: true,
+  title: Image.asset(
+    "logo/logo.png",
+    width: 150,
+  ),
+  leading: Builder(
+    builder: (BuildContext context) {
+      return user != null
+          ? IconButton(
+              icon: const Icon(Icons.menu), // Hamburger menu icon
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // Open the drawer
+              },
+            )
+          : const SizedBox(); // Show nothing if no user
+    },
+  ),
+  actions: [
+    PopupMenuButton(
+      icon: const Icon(Icons.more_vert, color: Colors.white), // 3-dots icon
+      offset: const Offset(0, 40), // Popup appears below the icon
+      color: Colors.white, // Popup background color
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8), // Rounded corners
+      ),
+      itemBuilder: (BuildContext context) {
+        return user != null
+            ? [
+                PopupMenuItem(
                   value: 'logout',
                   child: Row(
-                    children: [
-                      Icon(Icons.logout, color: Colors.blue),
+                    children: const [
+                      Icon(Icons.logout, color: Colors.black),
                       SizedBox(width: 8),
-                      Text("Logout"),
+                      Text(
+                        'Logout',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600, // Bold text
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ]
+            : [
+                PopupMenuItem(
+                  value: 'login',
+                  child: Row(
+                    children: const [
+                      Icon(Icons.login, color: Colors.black),
+                      SizedBox(width: 8),
+                      Text(
+                        'Login',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600, // Bold text
+                          color: Colors.black,
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ];
+      },
+      onSelected: (value) {
+        if (value == 'login') {
+          // Navigate to the login page
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Signin()));
+        } else if (value == 'logout') {
+          // Show logout confirmation dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Logout Confirmation"),
+                content: const Text("Are you sure you want to logout?"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                    child: const Text("Cancel"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // Logout logic
+                      _auth.signOut();
+                      Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Signin())); // Close the dialog
+                    },
+                    child: const Text("Logout"),
+                  ),
+                ],
+              );
             },
-          ),
-        ],
-      ),
-      // AppBar(
-      //   backgroundColor: Colors.blue,
-      //   centerTitle: true,
-      //   title: Image.asset(
-      //     "logo/logo.png",
-      //     width: 150,
-      //   ),
-      //   leading: Builder(
-      //     builder: (BuildContext context) {
-      //       return user != null
-      //           ? IconButton(
-      //               icon: const Icon(Icons.menu), // Hamburger menu icon
-      //               onPressed: () {
-      //                 Scaffold.of(context).openDrawer(); // Open the drawer
-      //               },
-      //             )
-      //           : const SizedBox(); // Show nothing if no user
-      //     },
-      //   ),
-      //   actions: [
-      //     user != null
-      //         ? TextButton(
-      //             onPressed: () {
-      //               // Show confirmation dialog
-      //               showDialog(
-      //                 context: context,
-      //                 builder: (BuildContext context) {
-      //                   return AlertDialog(
-      //                     title: const Text("Logout Confirmation"),
-      //                     content:
-      //                         const Text("Are you sure you want to logout?"),
-      //                     actions: [
-      //                       TextButton(
-      //                         onPressed: () {
-      //                           // Close the dialog without logging out
-      //                           Navigator.of(context).pop();
-      //                         },
-      //                         child: const Text("Cancel"),
-      //                       ),
-      //                       TextButton(
-      //                         onPressed: () {
-      //                           // Logout logic
-      //                           _auth.signOut();
-      //                           Navigator.of(context).pop(); // Close the dialog
-      //                         },
-      //                         child: const Text("Logout"),
-      //                       ),
-      //                     ],
-      //                   );
-      //                 },
-      //               );
-      //             },
-      //             style: OutlinedButton.styleFrom(
-      //               side: const BorderSide(
-      //                   color: Colors.white), // Button outline color
-      //               shape: RoundedRectangleBorder(
-      //                 borderRadius: BorderRadius.circular(8),
-      //               ),
-      //             ),
-      //             child: const Text(
-      //               "Logout",
-      //               style: TextStyle(color: Colors.white),
-      //             ),
-      //           )
-      //         : OutlinedButton(
-      //             onPressed: () {
-      //               // Navigate to the login page
-      //               Navigator.push(
-      //                   context,
-      //                   MaterialPageRoute(
-      //                       builder: (builder) =>
-      //                           Signin())); // Update with your login route
-      //             },
-      //             style: OutlinedButton.styleFrom(
-      //               side: const BorderSide(
-      //                   color: Colors.white), // Button outline color
-      //               shape: RoundedRectangleBorder(
-      //                 borderRadius: BorderRadius.circular(8),
-      //               ),
-      //             ),
-      //             child: const Text(
-      //               "Login",
-      //               style: TextStyle(color: Colors.white),
-      //             ),
-      //           )
-      //   ],
-      // ),
-      drawer: Drawer(
+          );
+        }
+      },
+    ),
+  ],
+),
+drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -389,17 +333,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             ContactUs())); // Open Contact us page
               },
             ),
-            //  ListTile(
-            //   leading: const Icon(Icons.newspaper),
-            //   title: const Text('News'),
-            //   onTap: () {
-            //     Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //             builder: (builder) =>
-            //                 CurrencyMarketPage())); // Open Contact us page
-            //   },
-            // ),
             ListTile(
               leading: const Icon(Icons.help_outline),
               title: const Text('Help & Feedback'),
@@ -472,7 +405,7 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.newspaper), label: "News"),
+              icon: Icon(Icons.search_rounded), label: "Search"),
           BottomNavigationBarItem(
               icon: Icon(Icons.library_books), label: "Library"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
@@ -482,3 +415,161 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+
+
+
+//-------------------------------------- custom currency -------------------------------------
+
+
+
+
+
+// double? userDefinedRate; // Global variable to store user-defined rate
+
+// class MyHomePage extends StatefulWidget {
+//   // ... your existing code ...
+// }
+
+// class _MyHomePageState extends State<MyHomePage> {
+//   // ... your existing code ...
+
+//   void _showOwnRatePopup(BuildContext context) {
+//     TextEditingController rateController = TextEditingController();
+
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return StatefulBuilder(
+//           builder: (context, setState) {
+//             return AlertDialog(
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(20),
+//               ),
+//               title: Text('Own Rate'),
+//               content: Column(
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [
+//                   Text(
+//                     "Current Selected:",
+//                     style: TextStyle(fontWeight: FontWeight.bold),
+//                   ),
+//                   SizedBox(height: 8),
+//                   Text(
+//                     "1 $_fromCurrency = ${userDefinedRate ?? 'X'} $_toCurrency",
+//                     style: TextStyle(fontSize: 16),
+//                   ),
+//                   SizedBox(height: 16),
+//                   TextField(
+//                     controller: rateController,
+//                     keyboardType: TextInputType.number,
+//                     decoration: InputDecoration(
+//                       hintText: "Enter your own rate",
+//                       border: OutlineInputBorder(
+//                         borderRadius: BorderRadius.circular(8),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               actions: [
+//                 TextButton(
+//                   onPressed: () {
+//                     setState(() {
+//                       userDefinedRate = null; // Reset rate
+//                     });
+//                     Navigator.pop(context);
+//                   },
+//                   child: Text('Reset'),
+//                 ),
+//                 TextButton(
+//                   onPressed: () {
+//                     if (rateController.text.isNotEmpty) {
+//                       setState(() {
+//                         userDefinedRate = double.tryParse(rateController.text);
+//                       });
+//                     }
+//                     Navigator.pop(context);
+//                   },
+//                   child: Text('Set'),
+//                 ),
+//                 TextButton(
+//                   onPressed: () {
+//                     Navigator.pop(context); // Close popup
+//                   },
+//                   child: Text('Cancel'),
+//                 ),
+//               ],
+//             );
+//           },
+//         );
+//       },
+//     );
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         // ... existing code ...
+//       ),
+//       drawer: Drawer(
+//         child: ListView(
+//           padding: EdgeInsets.zero,
+//           children: [
+//             // ... existing ListTile items ...
+//             ListTile(
+//               leading: Icon(Icons.drive_file_rename_outline_outlined),
+//               title: Text('Own Rate'),
+//               onTap: () {
+//                 Navigator.pop(context); // Close drawer
+//                 _showOwnRatePopup(context); // Show Own Rate popup
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//       // ... existing Scaffold code ...
+//     );
+//   }
+// }
+
+//--------------------------notification-----------------------------
+
+// Future<void> convertCurrency() async {
+//   setState(() {
+//     _isLoading = true;
+//   });
+
+//   if (userDefinedRate != null) {
+//     // Use user-defined rate
+//     setState(() {
+//       _convertedAmount = _amount * userDefinedRate!;
+//       _isLoading = false;
+//     });
+//     return;
+//   }
+
+  // Fetch live rate if user-defined rate is not set
+//   final url =
+//       'https://v6.exchangerate-api.com/v6/87ff51e0b30aae2ad80fa5c4/pair/$_fromCurrency/$_toCurrency&#39;;
+
+//   try {
+//     final response = await http.get(Uri.parse(url));
+//     if (response.statusCode == 200) {
+//       final data = jsonDecode(response.body);
+//       final rate = data['conversion_rate'];
+//       setState(() {
+//         _convertedAmount = _amount * rate;
+//       });
+//     } else {
+//       print("Error: ${response.statusCode}");
+//     }
+//   } catch (e) {
+//     print("Error: $e");
+//   }
+
+//   setState(() {
+//     _isLoading = false;
+//   });
+// }
