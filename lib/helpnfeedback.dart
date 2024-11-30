@@ -77,6 +77,11 @@ class HelpAndFeedbackPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => FAQPage()),
                 );
               },
+              style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
               child: Text('Visit FAQ'),
             ),
             SizedBox(height: 30),
@@ -108,10 +113,15 @@ class HelpAndFeedbackPage extends StatelessWidget {
             SizedBox(height: 20),
 
             // Submit Button
-            ElevatedButton(
-              onPressed: savedata ,
-              child: Text('Submit Feedback'),
-            ),
+              ElevatedButton(
+                  onPressed: savedata,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                  child: const Text('Submit'),
+                ),
           ],
         ),
       ),

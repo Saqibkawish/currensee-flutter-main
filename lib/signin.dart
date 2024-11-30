@@ -95,28 +95,28 @@ class _MySigninPageState extends State<MySigninPage> {
     }
   }
 
-  /// Function to sign in with Facebook
-  Future<void> signInWithFacebook() async {
-    try {
-      final LoginResult result = await FacebookAuth.instance.login();
-      if (result.status == LoginStatus.success) {
-        final OAuthCredential credential =
-            FacebookAuthProvider.credential(result.accessToken!.token);
+  // /// Function to sign in with Facebook
+  // Future<void> signInWithFacebook() async {
+  //   try {
+  //     final LoginResult result = await FacebookAuth.instance.login();
+  //     if (result.status == LoginStatus.success) {
+  //       final OAuthCredential credential =
+  //           FacebookAuthProvider.credential(result.accessToken!.token);
 
-        final UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-        print("Facebook User: ${userCredential.user}");
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (builder) => const Home()),
-        );
-      } else {
-        print("Facebook Login Failed: ${result.status}");
-      }
-    } catch (e) {
-      print("Error with Facebook Sign-In: $e");
-    }
-  }
+  //       final UserCredential userCredential =
+  //           await FirebaseAuth.instance.signInWithCredential(credential);
+  //       print("Facebook User: ${userCredential.user}");
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(builder: (builder) => const Home()),
+  //       );
+  //     } else {
+  //       print("Facebook Login Failed: ${result.status}");
+  //     }
+  //   } catch (e) {
+  //     print("Error with Facebook Sign-In: $e");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -202,11 +202,11 @@ class _MySigninPageState extends State<MySigninPage> {
                         icon: const Icon(Icons.g_mobiledata,
                             size: 40, color: Colors.red),
                       ),
-                      IconButton(
-                        onPressed: signInWithFacebook,
-                        icon: const Icon(Icons.facebook,
-                            size: 40, color: Colors.blue),
-                      ),
+                      // IconButton(
+                      //   onPressed: signInWithFacebook,
+                      //   icon: const Icon(Icons.facebook,
+                      //       size: 40, color: Colors.blue),
+                      // ),
                     ],
                   ),
                   const SizedBox(height: 20),

@@ -14,7 +14,7 @@ class CurrencyConverterUI extends StatefulWidget {
 class _CurrencyConverterUIState extends State<CurrencyConverterUI> {
   String _fromCurrency = 'USD';
   String _toCurrency = 'PKR';
-  double _amount = 1000.0;
+  double _amount = 000;
   double _convertedAmount = 0.0;
   bool _isLoading = false;
 

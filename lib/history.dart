@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:flutter_application_1/buttom_bar.dart';
 import 'package:intl/intl.dart'; // For date formatting
 
 void main() async {
@@ -84,9 +85,16 @@ class _MyHistoryPageState extends State<MyHistoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+     appBar: AppBar(
+        title: const Text('History'),
+        backgroundColor: Colors.blue, 
+        leading: IconButton(onPressed: (){ Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (builder) =>
+                            ButtomBar()));
+  },
+        icon: Icon(Icons.arrow_back)),
       ),
       body: conversions.isEmpty
           ? const Center(child: CircularProgressIndicator())

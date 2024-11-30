@@ -7,6 +7,7 @@ import 'package:flutter_application_1/curense.dart';
 import 'package:flutter_application_1/helpnfeedback.dart';
 import 'package:flutter_application_1/history.dart';
 import 'package:flutter_application_1/news.dart';
+import 'package:flutter_application_1/setting.dart';
 import 'package:flutter_application_1/signin.dart';
 
 void main() {
@@ -46,8 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> mypage = [
     CurrencyConverterUI(), // Replace with your CurrencyConverterUI widget
     CurrencyMarketPage(),
-    Text("Your Library Page"),
-    Text("Profile Page"),
   ];
 
   void item_select(int i) {
@@ -189,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     User? user = _auth.currentUser;
     FirebaseAuth auth = FirebaseAuth.instance;
-    String displayName = auth.currentUser?.displayName ?? "Guest";
+    String displayName = auth.currentUser?.email   ?? "Guest";
     return Scaffold(
     appBar:   
     AppBar(
@@ -365,9 +364,12 @@ drawer: Drawer(
             ),
             ListTile(
               leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
+              title: const Text('Setting'),
               onTap: () {
-                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (builder) => SettingsApp())); // Open Contact us page
               },
             ),
             ListTile(
@@ -402,14 +404,11 @@ drawer: Drawer(
         currentIndex: index,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,
-        backgroundColor: Colors.grey.shade900,
+        // backgroundColor: Colors.grey.shade900,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
               icon: Icon(Icons.newspaper), label: "News"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.library_books), label: "Library"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
         onTap: item_select, // Handle the bottom nav bar item tap
       ),

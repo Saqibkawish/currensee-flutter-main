@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
+import 'package:flutter_application_1/buttom_bar.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,13 +45,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        centerTitle: true,
-        title: Image.asset(
-          "logo/logo.png",
-          width: 150,
-        ),
+     appBar: AppBar(
+        title: const Text('FAQs'),
+        backgroundColor: Colors.blue, 
+        leading: IconButton(onPressed: (){ Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (builder) =>
+                            ButtomBar()));
+  },
+        icon: Icon(Icons.arrow_back)),
       ),
       body: StreamBuilder(
         stream: db.collection("faq").snapshots(),

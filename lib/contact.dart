@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_1/buttom_bar.dart';
+import 'package:flutter_application_1/curense.dart';
 import 'package:flutter_application_1/home.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,6 +93,13 @@ class _ContactFormPageState extends State<ContactFormPage> {
       appBar: AppBar(
         title: const Text('Contact Us'),
         backgroundColor: Colors.blue, 
+        leading: IconButton(onPressed: (){ Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (builder) =>
+                            ButtomBar()));
+  },
+        icon: Icon(Icons.arrow_back)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
